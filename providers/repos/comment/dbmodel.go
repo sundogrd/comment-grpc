@@ -1,8 +1,8 @@
-package user
+package comment
 
 import "time"
 
-type User struct {
+type Comment struct {
 	// gorm.Model
 	ID        int64      `gorm:"primary_key;AUTO_INCREMENT;not null"`
 	UserID    int64      `gorm:"not null;"`
@@ -17,6 +17,6 @@ type User struct {
 }
 
 
-func (*User) TableName() string {
-	return "sd_users"
+func (*Comment) TableName() string {
+	return "sd_comments"
 }

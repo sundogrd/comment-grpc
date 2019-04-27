@@ -2,12 +2,12 @@ package main
 
 import (
 	"fmt"
+	commentGen "github.com/sundogrd/comment-grpc/grpc_gen/comment"
+	commentRepo "github.com/sundogrd/comment-grpc/providers/repos/comment/repo"
+	"github.com/sundogrd/comment-grpc/servers/comment"
+	commentService "github.com/sundogrd/comment-grpc/services/comment/service"
 	configUtils "github.com/sundogrd/gopkg/config"
 	"github.com/sundogrd/gopkg/db"
-	userGen "github.com/sundogrd/user-grpc/grpc_gen/user"
-	userRepo "github.com/sundogrd/user-grpc/providers/repos/user/repo"
-	"github.com/sundogrd/user-grpc/servers/user"
-	userService "github.com/sundogrd/user-grpc/services/user/service"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 	"net"
@@ -46,17 +46,17 @@ func main() {
 		panic(err)
 	}
 
-	ur, err := userRepo.NewUserRepo(gormDB, 2*time.Second)
+	cr, err := commentRepo.NewCommentRepo(gormDB, 2*time.Second)
 	if err != nil {
 		panic(err)
 	}
-	us, err := userService.NewUserService(&ur, 2*time.Second)
+	cs, err := commentService.NewCommentService(&cr, 2*time.Second)
 
 	grpcServer := grpc.NewServer()
-	userGen.RegisterUserServiceServer(grpcServer, &user.UserServiceServer{
-		GormDB:      gormDB,
-		UserRepo:    ur,
-		UserService: us,
+	commentGen.RegisterCommentServiceServer(grpcServer, &comment.CommentServiceServer{
+		GormDB:         gormDB,
+		CommentRepo:    cr,
+		CommentService: cs,
 	})
 	reflection.Register(grpcServer)
 	grpcServer.Serve(listen)

@@ -1,4 +1,4 @@
-package user
+package comment
 
 import (
 	"context"
@@ -8,14 +8,14 @@ type GetRequest struct {
 	UserID int64
 }
 type GetResponse struct {
-	User *User
+	Comment *Comment
 }
 
 type ListRequest struct {
 	Query string
 }
 type ListResponse struct {
-	List []*User
+	List []*Comment
 	Total int64
 }
 
@@ -27,7 +27,7 @@ type CreateRequest struct {
 	Extra     string
 }
 type CreateResponse struct {
-	User *User
+	Comment *Comment
 }
 
 type Repo interface {

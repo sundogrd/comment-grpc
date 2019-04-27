@@ -6,7 +6,7 @@ init:
 	@sh ./devops/grpc_gen.sh
 
 update:
-	@git submodule foreach git pull
+	@git submodule foreach git pull && sh ./devops/grpc_gen.sh
 
 start:
 

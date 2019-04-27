@@ -17,5 +17,5 @@
     "host": "Your Host",
     "port": 6379,
     "password": ""
-  },
+  }
 }
