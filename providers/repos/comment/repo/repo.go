@@ -19,6 +19,14 @@ func NewCommentRepo(gormDB *gorm.DB, timeout time.Duration) (comment.Repo, error
 	if err != nil {
 		return nil, err
 	}
+
+	hasTable := gormDB.HasTable(&comment.Comment{})
+	if hasTable == false {
+		gormDB.CreateTable(&comment.Comment{})
+	} else {
+		gormDB.AutoMigrate(&comment.Comment{})
+	}
+
 	repo := commentRepo{
 		gormDB: gormDB,
 		contextTimeout:  timeout,

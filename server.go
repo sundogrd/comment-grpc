@@ -2,6 +2,9 @@ package main
 
 import (
 	"fmt"
+	"net"
+	"time"
+
 	commentGen "github.com/sundogrd/comment-grpc/grpc_gen/comment"
 	commentRepo "github.com/sundogrd/comment-grpc/providers/repos/comment/repo"
 	"github.com/sundogrd/comment-grpc/servers/comment"
@@ -10,8 +13,6 @@ import (
 	"github.com/sundogrd/gopkg/db"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
-	"net"
-	"time"
 )
 
 func main() {
