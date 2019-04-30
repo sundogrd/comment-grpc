@@ -14,7 +14,7 @@ func TestCommentProvider_Get(t *testing.T) {
 	}
 
 	res, err := comment.Get(context.Background(), &repo.GetRequest{
-		CommentId: 342857719654395904,
+		CommentId: 343087411107999744,
 	})
 	if err != nil {
 		t.Fatalf("GetComment err: %+v", err)

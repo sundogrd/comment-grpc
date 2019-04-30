@@ -7,22 +7,6 @@ import (
 	repo "github.com/sundogrd/comment-grpc/providers/repos/comment"
 )
 
-// type CommentResult struct {
-// 	Id          int64
-// 	TargetId    int64
-// 	CreatorId   int64
-// 	ParentId    int64
-// 	ReCommentId int64
-// 	Content     string
-// 	Extra       string
-// 	Like        int32
-// 	Hate        int32
-// 	State       CommentState
-// 	CreatedAt   time.Time
-// 	ModifiedAt  time.Time
-// 	Floor       uint32
-// }
-
 func (s commentRepo) List(ctx context.Context, req *repo.ListRequest) (*repo.ListResponse, error) {
 
 	var result []*repo.Comment
@@ -44,6 +28,7 @@ func (s commentRepo) List(ctx context.Context, req *repo.ListRequest) (*repo.Lis
 
 	for rows.Next() {
 		var commentObj repo.Comment
+
 		if rowErr := db.ScanRows(rows, &commentObj); rowErr != nil {
 			fmt.Printf("[providers/comment] List: db scan row error: %+v", rowErr)
 		}
