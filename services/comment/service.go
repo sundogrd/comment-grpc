@@ -2,7 +2,6 @@ package comment
 
 import (
 	"context"
-	"time"
 
 	"github.com/sundogrd/comment-grpc/models"
 )
@@ -14,22 +13,6 @@ const (
 	SHOW     ECommentState = 1
 	WITHDRAW ECommentState = 2
 )
-
-type Comment struct {
-	CommentId   int64
-	TargetId    int64
-	CreatorId   int64
-	ParentId    int64
-	ReCommentId int64
-	Content     string
-	Extra       string
-	Like        int32
-	Hate        int32
-	State       ECommentState
-	CreatedAt   time.Time
-	ModifiedAt  time.Time
-	Floor       uint32
-}
 
 type CommentParam struct {
 	TargetId    int64
@@ -44,7 +27,7 @@ type GetRequest struct {
 	CommentId int64
 }
 type GetResponse struct {
-	UserInfo *models.UserInfo
+	Comment *models.Comment
 }
 
 type ListCommentsRequest struct {
@@ -62,7 +45,7 @@ type ListCommentsRequest struct {
 
 type ListCommentsResponse struct {
 	AppId    string
-	Comments *[]Comment
+	Comments [](*models.Comment)
 	Total    int64
 	Page     int32
 	PageSize int32
@@ -89,7 +72,7 @@ type CreateRequest struct {
 
 type CreateResponse struct {
 	AppId   string
-	Comment Comment
+	Comment *models.Comment
 }
 
 type DeleteRequest struct {
@@ -102,7 +85,7 @@ type DeleteResponse struct {
 	CommentId int64
 }
 type Service interface {
-	Get(ctx context.Context, req *GetRequest) (*GetResponse, error)
+	GetComment(ctx context.Context, req *GetRequest) (*GetResponse, error)
 	ListComments(ctx context.Context, req *ListCommentsRequest) (*ListCommentsResponse, error)
 	// Like(ctx context.Context, req *LikeRequest) (*LikeResponse, error)
 	// Hate(ctx context.Context, req *HateRequest) (*HateResponse, error)
