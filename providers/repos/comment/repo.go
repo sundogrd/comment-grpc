@@ -11,6 +11,7 @@ type CommentParams struct {
 	ReCommentId int64
 	Content     string
 	Extra       string
+	Floor       int32
 }
 
 type GetRequest struct {
@@ -21,7 +22,10 @@ type GetResponse struct {
 }
 
 type ListRequest struct {
-	Query string
+	Query    string
+	Page     int32
+	PageSize int32
+	Values   []interface{}
 }
 type ListResponse struct {
 	List     []*Comment
