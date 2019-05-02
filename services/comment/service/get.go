@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"github.com/sundogrd/comment-grpc/models"
@@ -18,6 +19,11 @@ func (s *commentService) GetComment(ctx context.Context, req *service.GetRequest
 	if err != nil {
 		fmt.Printf("[service/comment] GetComment: get comment error: %+v", err)
 		return nil, err
+	}
+
+	if response == nil {
+		fmt.Printf("[service/comment] GetComment: no comment found!: %+v", err)
+		return nil, errors.New("comment not exsit")
 	}
 	res := &service.GetResponse{
 		Comment: &models.Comment{

@@ -33,6 +33,11 @@ func (s *commentService) getFloor(ctx context.Context, target int64) (int32, err
 	}
 
 	list := listRes.List
+	fmt.Println("list is: %+v", list)
+
+	if len(list) == 0 {
+		return 0, nil
+	}
 	return list[0].Floor, nil
 }
 

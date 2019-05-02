@@ -87,8 +87,8 @@ type DeleteResponse struct {
 type Service interface {
 	GetComment(ctx context.Context, req *GetRequest) (*GetResponse, error)
 	ListComments(ctx context.Context, req *ListCommentsRequest) (*ListCommentsResponse, error)
-	// Like(ctx context.Context, req *LikeRequest) (*LikeResponse, error)
-	// Hate(ctx context.Context, req *HateRequest) (*HateResponse, error)
+	Like(ctx context.Context, req *LikeRequest) (*LikeResponse, error)
+	Hate(ctx context.Context, req *HateRequest) (*HateResponse, error)
 	CreateComment(ctx context.Context, req *CreateRequest) (*CreateResponse, error)
 	DeleteComment(ctx context.Context, req *DeleteRequest) (*DeleteResponse, error)
 }
