@@ -25,8 +25,8 @@ type ListRequest struct {
 	Query    string
 	Page     int32
 	PageSize int32
-	Receiver interface{}
-	Values   []interface{}
+	// Receiver interface{}
+	Values []interface{}
 }
 type ListResponse struct {
 	List     []*Comment
