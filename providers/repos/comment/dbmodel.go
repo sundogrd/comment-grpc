@@ -18,7 +18,7 @@ type Comment struct {
 	Floor       int32        `gorm:"not null;DEFAULT:1"`
 	State       CommentState `gorm:"type:TINYINT;NOT NULL;DEFAULT:1"`
 	CreatedAt   time.Time    `gorm:"DEFAULT:CURRENT_TIMESTAMP;NOT NULL"`
-	ModifiedAt  time.Time    `gorm:"DEFAULT:1970-01-01 00:00:00"`
+	ModifiedAt  time.Time    `gorm:"DEFAULT:CURRENT_TIMESTAMP"`
 	DeletedAt   *time.Time   `gorm:"" sql:"index"`
 	Extra       string       `gorm:"type:TEXT;"`
 }

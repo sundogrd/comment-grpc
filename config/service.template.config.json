@@ -1,6 +1,6 @@
 {
   "name": "App",
-  "port": 8086,
+  "port": 9999,
   "home_page": "Your Home Page",
   "db": {
     "type": "mysql",

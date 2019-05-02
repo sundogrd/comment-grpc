@@ -1,16 +1,33 @@
 package comment_test
 
 import (
+	"fmt"
+	"log"
+	"net"
 	"time"
 
 	"github.com/sundogrd/gopkg/db"
 
+	commentGen "github.com/sundogrd/comment-grpc/grpc_gen/comment"
+
 	commentRepo "github.com/sundogrd/comment-grpc/providers/repos/comment/repo"
-	"github.com/sundogrd/comment-grpc/services/comment"
+	"github.com/sundogrd/comment-grpc/servers/comment"
 	commentService "github.com/sundogrd/comment-grpc/services/comment/service"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 )
 
-func initServerTest() (comment.Service, error) {
+const (
+	address     = "localhost:8999"
+	defaultName = "world"
+)
+
+func initServer(message chan bool) {
+	listen, err := net.Listen("tcp", ":8999")
+	fmt.Println("开始启动服务器......")
+	if err != nil {
+		fmt.Printf("failed to listen: %v\n", err)
+	}
 
 	gormDB, err := db.Connect(db.ConnectOptions{
 		User:           "root",
@@ -21,18 +38,27 @@ func initServerTest() (comment.Service, error) {
 		ConnectTimeout: "10s",
 	})
 	if err != nil {
-		return nil, err
+		log.Fatalf("start test server failed! %+v", err)
 	}
 
 	cr, error := commentRepo.NewCommentRepo(gormDB, 2*time.Second)
 	if error != nil {
-		return nil, error
+		log.Fatalf("start test server failed! %+v", error)
 	}
 
 	cs, err := commentService.NewCommentService(&cr, 2*time.Second)
 
 	if err != nil {
-		return nil, err
+		log.Fatalf("start test server failed! %+v", err)
 	}
-	return cs, nil
+
+	grpcServer := grpc.NewServer()
+	commentGen.RegisterCommentServiceServer(grpcServer, &comment.CommentServiceServer{
+		GormDB:         gormDB,
+		CommentRepo:    cr,
+		CommentService: cs,
+	})
+	reflection.Register(grpcServer)
+	grpcServer.Serve(listen)
+	message <- true
 }

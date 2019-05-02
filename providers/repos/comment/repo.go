@@ -52,9 +52,19 @@ type DeleteResponse struct {
 	CommentId int64
 }
 
+type UpdateRequest struct {
+	CommentId int64
+	Map       map[string]interface{}
+}
+
+type UpdateResponse struct {
+	Comment *Comment
+}
+
 type Repo interface {
 	Get(ctx context.Context, req *GetRequest) (*GetResponse, error)
 	List(ctx context.Context, req *ListRequest) (*ListResponse, error)
 	Create(ctx context.Context, req *CreateRequest) (*CreateResponse, error)
 	Delete(ctx context.Context, req *DeleteRequest) (*DeleteResponse, error)
+	Update(ctx context.Context, req *UpdateRequest) (*UpdateResponse, error)
 }
