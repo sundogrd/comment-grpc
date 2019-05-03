@@ -12,4 +12,4 @@ start:
 
 
 dev:
-	@go run server.go
+	@export GO111MODULE=on && go run server.go
