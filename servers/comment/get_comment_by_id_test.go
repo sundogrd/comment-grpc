@@ -10,16 +10,16 @@ import (
 
 	"google.golang.org/grpc"
 
-	comment "github.com/sundogrd/comment-grpc/grpc_gen/comment"
+	"github.com/sundogrd/comment-grpc/grpc_gen/comment"
 	commentGen "github.com/sundogrd/comment-grpc/grpc_gen/comment"
 )
 
 // var message = make(chan bool)
 
-func TestCommentServer_List(t *testing.T) {
+func TestCommentServer_Get(t *testing.T) {
 
 	// go initServer(message)
-	// // <-message
+	// <-message
 	fmt.Println("客户端开始运行.....")
 	conn, err := grpc.Dial(address, grpc.WithInsecure())
 	if err != nil {
@@ -36,8 +36,8 @@ func TestCommentServer_List(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	res, err := client.ListComments(ctx, &comment.ListCommentsRequest{
-		AppId: "2322",
+	res, err := client.GetCommentById(ctx, &comment.GetCommentByIdRequest{
+		CommentId: 343191254370103296, // 343193762765221888
 	})
 
 	log.Printf("%s: %s", name, res)
