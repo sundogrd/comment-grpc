@@ -1,11 +1,13 @@
 package comment
 
-import "time"
+import (
+	"time"
+)
 
 type CommentState int16
 
 type Comment struct {
-	// gorm.Model
+	//gorm.Model
 	ID          int64        `gorm:"primary_key;AUTO_INCREMENT;not null"`
 	AppID       string       `gorm:"type:varchar(30);index:idx_app;not null"`
 	TargetID    int64        `gorm:"index:idx_target;not null;"`
@@ -17,7 +19,7 @@ type Comment struct {
 	Hate        int32        `gorm:"not null;DEFAULT:0"`
 	Floor       int32        `gorm:"not null;DEFAULT:1"`
 	State       CommentState `gorm:"type:TINYINT;NOT NULL;DEFAULT:1"`
-	CreatedAt   time.Time    `gorm:"DEFAULT:CURRENT_TIMESTAMP;NOT NULL"`
+	CreatedAt   time.Time
 	ModifiedAt  time.Time    `gorm:"DEFAULT:CURRENT_TIMESTAMP"`
 	DeletedAt   *time.Time   `gorm:""`
 	Extra       string       `gorm:"type:TEXT;"`
