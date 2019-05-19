@@ -36,11 +36,11 @@ func (s *commentService) ListComments(ctx context.Context, req *service.ListComm
 		return nil, errors.New("app id invalid")
 	}
 
-	if req.TargetId != 0 {
+	if req.TargetId >= 0 {
 		sqlFragments = append(sqlFragments, "target_id = ? ")
 		values = append(values, req.TargetId)
 	}
-	if req.ParentId != 0 {
+	if req.ParentId >= 0 {
 		sqlFragments = append(sqlFragments, "parent_id = ? ")
 		values = append(values, req.ParentId)
 	}
@@ -50,10 +50,10 @@ func (s *commentService) ListComments(ctx context.Context, req *service.ListComm
 		values = append(values, req.ReCommentId)
 	}
 
-	if req.Page != 0 {
+	if req.Page > 1 {
 		page = req.Page
 	}
-	if req.PageSize != 0 {
+	if req.PageSize > 1 {
 		pageSize = req.PageSize
 	}
 
