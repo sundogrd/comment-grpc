@@ -1,10 +1,10 @@
 package main
 
 import (
-	"fmt"
-	"github.com/sirupsen/logrus"
 	"net"
 	"time"
+
+	"github.com/sirupsen/logrus"
 
 	commentGen "github.com/sundogrd/comment-grpc/grpc_gen/comment"
 	commentRepo "github.com/sundogrd/comment-grpc/providers/repos/comment/repo"
