@@ -6,8 +6,6 @@ import (
 
 type CommentState int16
 
-type CommentState int16
-
 type Comment struct {
 	//gorm.Model
 	ID          int64        `gorm:"primary_key;AUTO_INCREMENT;not null"`
@@ -22,9 +20,9 @@ type Comment struct {
 	Floor       int32        `gorm:"not null;DEFAULT:1"`
 	State       CommentState `gorm:"type:TINYINT;NOT NULL;DEFAULT:1"`
 	CreatedAt   time.Time
-	ModifiedAt  time.Time    `gorm:"DEFAULT:CURRENT_TIMESTAMP"`
-	DeletedAt   *time.Time   `gorm:""`
-	Extra       string       `gorm:"type:TEXT;"`
+	ModifiedAt  time.Time  `gorm:"DEFAULT:CURRENT_TIMESTAMP"`
+	DeletedAt   *time.Time `gorm:""`
+	Extra       string     `gorm:"type:TEXT;"`
 }
 
 func (*Comment) TableName() string {

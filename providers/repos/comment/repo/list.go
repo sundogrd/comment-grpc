@@ -2,10 +2,7 @@ package repo
 
 import (
 	"context"
-<<<<<<< HEAD
 	"database/sql"
-=======
->>>>>>> master
 	"fmt"
 
 	repo "github.com/sundogrd/comment-grpc/providers/repos/comment"
