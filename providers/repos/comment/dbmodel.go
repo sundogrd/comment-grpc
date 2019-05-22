@@ -6,6 +6,8 @@ import (
 
 type CommentState int16
 
+type CommentState int16
+
 type Comment struct {
 	//gorm.Model
 	ID          int64        `gorm:"primary_key;AUTO_INCREMENT;not null"`
