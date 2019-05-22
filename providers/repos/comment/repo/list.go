@@ -2,6 +2,7 @@ package repo
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
 
 	repo "github.com/sundogrd/comment-grpc/providers/repos/comment"
@@ -14,11 +15,14 @@ func (s commentRepo) List(ctx context.Context, req *repo.ListRequest) (*repo.Lis
 	page := req.Page
 	pageSize := req.PageSize
 
-	rows, err := db.Raw(req.Query, req.Values...).Rows()
-	defer rows.Close()
-
+	var rows *sql.Rows
+	var err error
 	if page > 0 && pageSize > 0 {
-		db.Limit(pageSize).Offset((page - 1) * pageSize)
+		rows, err = db.Limit(pageSize).Offset((page-1)*pageSize).Raw(req.Query, req.Values...).Rows()
+		defer rows.Close()
+	} else {
+		rows, err = db.Raw(req.Query, req.Values...).Rows()
+		defer rows.Close()
 	}
 
 	if err != nil {
@@ -35,11 +39,25 @@ func (s commentRepo) List(ctx context.Context, req *repo.ListRequest) (*repo.Lis
 		result = append(result, &commentObj)
 	}
 
+	// 获取总数目
+	type Total struct {
+		Total int64
+	}
+	var total Total
+	var countBeginSql string = "SELECT count(1) as total "
+	var countSql = countBeginSql + req.Query[9:]
+
+	// fmt.Println(countSql)
+
+	db.Raw(countSql, req.Values...).Scan(&total)
+
+	// fmt.Printf("total count is %+v", total.Total)
+
 	res := &repo.ListResponse{
 		List:     result,
 		Page:     page,
 		PageSize: pageSize,
-		Total:    int64(len(result)),
+		Total:    total.Total,
 	}
 
 	return res, nil
