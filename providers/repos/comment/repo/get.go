@@ -17,7 +17,7 @@ func (s commentRepo) Get(ctx context.Context, req *repo.GetRequest) (*repo.GetRe
 	}).First(&comment)
 
 	if dbc.Error != nil {
-		fmt.Printf("[providers/comment] Delete: db get error: %+v", dbc.Error)
+		fmt.Printf("[providers/comment] Get: db get error: %+v", dbc.Error)
 		return nil, dbc.Error
 	}
 
