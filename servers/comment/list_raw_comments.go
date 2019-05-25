@@ -4,29 +4,30 @@ import (
 	"context"
 	"fmt"
 
-	comment "github.com/sundogrd/comment-grpc/grpc_gen/comment"
+	"github.com/sundogrd/comment-grpc/grpc_gen/comment"
 	commentService "github.com/sundogrd/comment-grpc/services/comment"
 )
 
-func (server CommentServiceServer) ListComments(ctx context.Context, req *comment.ListCommentsRequest) (*comment.ListCommentsResponse, error) {
+func (server CommentServiceServer) ListRawComments(ctx context.Context, req *comment.ListCommentsRequest) (*comment.ListCommentsResponse, error) {
+
 	service := server.CommentService
 
-	response, err := service.ListComments(ctx, &commentService.ListCommentsRequest{
-		AppId: req.AppId,
-		TargetId    : req.TargetId,
-		Page        : req.Page,
-		PageSize    : req.PageSize,
-		CreatorId   : req.CreatorId,
-		ParentId    : req.ParentId,
-		State       : req.State,
-		StartTime   : req.StartTime,
-		EndTime     : req.EndTime,
-		ReCommentId : req.ReCommentId,
-		Sort        : int16(req.Sort),
+	response, err := service.ListRawComments(ctx, &commentService.ListCommentsRequest{
+		AppId:       req.AppId,
+		TargetId:    req.TargetId,
+		Page:        req.Page,
+		PageSize:    req.PageSize,
+		CreatorId:   req.CreatorId,
+		ParentId:    req.ParentId,
+		State:       req.State,
+		StartTime:   req.StartTime,
+		EndTime:     req.EndTime,
+		ReCommentId: req.ReCommentId,
+		Sort:        int16(req.Sort),
 	})
 
 	if err != nil {
-		fmt.Printf("[server/comment] GetCommentById: get by id error: %+v", err)
+		fmt.Printf("[server/comment] List: server list error: %+v", err)
 		return nil, err
 	}
 

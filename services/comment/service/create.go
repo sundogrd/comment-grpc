@@ -24,7 +24,7 @@ func (s *commentService) getFloor(ctx context.Context, target int64) (int32, err
 
 	values = append(values, target)
 
-	listRes, err := repo.List(ctx, &comment.ListRequest{
+	listRes, err := repo.ListRaw(ctx, &comment.ListRawRequest{
 		Query:  sql,
 		Values: values,
 	})

@@ -16,7 +16,7 @@ import (
 
 // var message = make(chan bool)
 
-func TestCommentServer_List(t *testing.T) {
+func TestCommentServer_List_Raw(t *testing.T) {
 
 	// go initServer(message)
 	// // <-message
