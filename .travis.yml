@@ -1,0 +1,17 @@
+language: go
+go:
+- 1.11
+install:
+- export GO111MODULE=on
+- export GOFLAGS=-mod=vendor
+script:
+- make init
+- make build
+before_install:
+
+after_success:
+- docker login -u="$DOCKER_NAME" -p="$DOCKER_PWD"
+- docker build -t breakinferno/comment-grpc:$TRAVIS_BRANCH-$TRAVIS_BUILD_ID .
+- docker push breakinferno/comment-grpc:$TRAVIS_BRANCH-$TRAVIS_BUILD_ID;
+- chmod 600 ~/.ssh/id_rsa
+- ssh sundogrd@sundogrd.com -o StrictHostKeyChecking=no 'cd ~/content-api && sh ./devops/deploy.sh' $TRAVIS_BRANCH $TRAVIS_BUILD_ID
