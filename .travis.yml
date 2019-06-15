@@ -5,7 +5,7 @@ env:
 - PATH=$HOME/protoc/bin:$PATH
 before_install:
 - openssl aes-256-cbc -K $encrypted_4b270d9f0c72_key -iv $encrypted_4b270d9f0c72_iv
-  -in id_rsa.enc -out ./id_rsa -d
+  -in id_rsa.enc -out ~/.ssh/id_rsa -d
 - export GO111MODULE=on
 - export GOFLAGS=-mod=vendor
 install: 
@@ -13,5 +13,6 @@ script:
 - make build
 after_success:
 - chmod 600 ~/.ssh/id_rsa
+- ll ~/.ssh
 - ssh root@real.breakinferno.cn -o StrictHostKeyChecking=no 'mkdir -p ~/comment-grpc
   && cd ~/comment-grpc && touch $TRAVIS_BUILD_ID.log' $TRAVIS_BRANCH $TRAVIS_BUILD_ID
