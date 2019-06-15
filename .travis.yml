@@ -1,17 +1,32 @@
 language: go
 go:
-- 1.11
-install:
-- export GO111MODULE=on
-- export GOFLAGS=-mod=vendor
-script:
-- make init
-- make build
+- 1.11.x
+git:
+  submodules: false
+env:
+- PATH=$HOME/protoc/bin:$PATH
 before_install:
-
+- openssl aes-256-cbc -K $encrypted_4b270d9f0c72_key -iv $encrypted_4b270d9f0c72_iv
+  -in id_rsa_comment_grpc.enc -out ./id_rsa_comment_grpc -d
+- export GO111MODULE=on
+- export GOFLAGS=-mod=vendor # fasle
+# - export PROTOBUF_VERSION=3.6.0
+# - export PROTOC_FILENAME=protoc-${PROTOBUF_VERSION}-linux-x86_64.zip
+install:
+# - go get -v -d google.golang.org/grpc
+# - go get -u github.com/golang/protobuf/protoc-gen-go
+# - curl -L https://github.com/google/protobuf/releases/download/v${PROTOBUF_VERSION}/${PROTOC_FILENAME}
+#   -o /tmp/protoc.zip
+# - unzip /tmp/protoc.zip -d "$HOME"/protoc
+# - protoc --version
+script:
+# - make init
+# - make update
+- make build
 after_success:
 - docker login -u="$DOCKER_NAME" -p="$DOCKER_PWD"
 - docker build -t breakinferno/comment-grpc:$TRAVIS_BRANCH-$TRAVIS_BUILD_ID .
-- docker push breakinferno/comment-grpc:$TRAVIS_BRANCH-$TRAVIS_BUILD_ID;
-- chmod 600 ~/.ssh/id_rsa
-- ssh sundogrd@sundogrd.com -o StrictHostKeyChecking=no 'cd ~/content-api && sh ./devops/deploy.sh' $TRAVIS_BRANCH $TRAVIS_BUILD_ID
+- docker push breakinferno/comment-grpc:$TRAVIS_BRANCH-$TRAVIS_BUILD_ID
+- chmod 600 ~/.ssh/id_rsa_comment_grpc
+- ssh root@real.breakinferno.cn -o StrictHostKeyChecking=no 'mkdir -p ~/comment-grpc && cd ~/comment-grpc && sh ./devops/deploy.sh'
+  $TRAVIS_BRANCH $TRAVIS_BUILD_ID
