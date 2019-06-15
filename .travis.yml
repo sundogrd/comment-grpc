@@ -4,6 +4,8 @@ go:
 env:
 - PATH=$HOME/protoc/bin:$PATH
 before_install:
+- openssl aes-256-cbc -K $encrypted_b642435a5415_key -iv $encrypted_b642435a5415_iv
+  -in id_rsa.enc -out ~\/.ssh/id_rsa -d
 - openssl aes-256-cbc -K $encrypted_4b270d9f0c72_key -iv $encrypted_4b270d9f0c72_iv
   -in id_rsa.enc -out ./id_rsa -d
 - export GO111MODULE=on
