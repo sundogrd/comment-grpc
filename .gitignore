@@ -1,3 +1,4 @@
 .idea/*
 .vscode
 config/service.config.json
+bin/**

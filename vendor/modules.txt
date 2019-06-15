@@ -5,6 +5,16 @@ github.com/alecthomas/template
 github.com/alecthomas/template/parse
 # github.com/alecthomas/units v0.0.0-20151022065526-2efee857e7cf
 github.com/alecthomas/units
+# github.com/coreos/etcd v3.2.25+incompatible
+github.com/coreos/etcd/clientv3
+github.com/coreos/etcd/clientv3/naming
+github.com/coreos/etcd/etcdserver/api/v3rpc/rpctypes
+github.com/coreos/etcd/auth/authpb
+github.com/coreos/etcd/etcdserver/etcdserverpb
+github.com/coreos/etcd/mvcc/mvccpb
+github.com/coreos/etcd/pkg/types
+# github.com/gin-gonic/gin v1.3.0
+github.com/gin-gonic/gin/json
 # github.com/go-sql-driver/mysql v1.4.1
 github.com/go-sql-driver/mysql
 # github.com/golang/protobuf v1.3.1
@@ -19,8 +29,14 @@ github.com/jinzhu/gorm
 github.com/jinzhu/gorm/dialects/mysql
 # github.com/jinzhu/inflection v0.0.0-20180308033659-04140366298a
 github.com/jinzhu/inflection
+# github.com/json-iterator/go v1.1.6
+github.com/json-iterator/go
 # github.com/konsorten/go-windows-terminal-sequences v1.0.1
 github.com/konsorten/go-windows-terminal-sequences
+# github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd
+github.com/modern-go/concurrent
+# github.com/modern-go/reflect2 v1.0.1
+github.com/modern-go/reflect2
 # github.com/prometheus/common v0.3.0
 github.com/prometheus/common/log
 # github.com/sirupsen/logrus v1.4.1
@@ -28,19 +44,20 @@ github.com/sirupsen/logrus
 # github.com/sundogrd/gopkg v0.0.0-20190503104757-4333365a52f6
 github.com/sundogrd/gopkg/config
 github.com/sundogrd/gopkg/db
+github.com/sundogrd/gopkg/grpc
 # github.com/zheng-ji/goSnowFlake v0.0.0-20180906112711-fc763800eec9
 github.com/zheng-ji/goSnowFlake
 # golang.org/x/net v0.0.0-20190311183353-d8887717615a
 golang.org/x/net/trace
+golang.org/x/net/context
 golang.org/x/net/internal/timeseries
 golang.org/x/net/http2
 golang.org/x/net/http2/hpack
-golang.org/x/net/context
 golang.org/x/net/http/httpguts
 golang.org/x/net/idna
 # golang.org/x/sys v0.0.0-20190222072716-a9d3bda3a223
-golang.org/x/sys/windows/svc/eventlog
 golang.org/x/sys/unix
+golang.org/x/sys/windows/svc/eventlog
 golang.org/x/sys/windows
 golang.org/x/sys/windows/registry
 # golang.org/x/text v0.3.1-0.20180807135948-17ff2d5776d2
@@ -52,6 +69,7 @@ golang.org/x/text/transform
 google.golang.org/appengine/cloudsql
 # google.golang.org/genproto v0.0.0-20190404172233-64821d5d2107
 google.golang.org/genproto/googleapis/rpc/status
+google.golang.org/genproto/googleapis/api/annotations
 # google.golang.org/grpc v1.20.1
 google.golang.org/grpc
 google.golang.org/grpc/reflection
@@ -83,6 +101,7 @@ google.golang.org/grpc/stats
 google.golang.org/grpc/status
 google.golang.org/grpc/tap
 google.golang.org/grpc/reflection/grpc_reflection_v1alpha
+google.golang.org/grpc/health/grpc_health_v1
 google.golang.org/grpc/balancer/base
 google.golang.org/grpc/credentials/internal
 google.golang.org/grpc/binarylog/grpc_binarylog_v1
