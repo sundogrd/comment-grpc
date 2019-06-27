@@ -16,4 +16,4 @@ after_success:
 - docker login -u="$DOCKER_NAME" -p="$DOCKER_PWD"
 - docker build -t breakinferno/comment-grpc:$TRAVIS_BRANCH-$TRAVIS_BUILD_ID .
 - docker push breakinferno/comment-grpc:$TRAVIS_BRANCH-$TRAVIS_BUILD_ID
-- ssh root@118.25.150.3 -o StrictHostKeyChecking=no 'cd workspace/comment-grpc/devops && sh deploy.sh' $TRAVIS_BRANCH $TRAVIS_BUILD_ID
+- ssh root@118.25.150.3 -o StrictHostKeyChecking=no 'cd ~/workspace/comment-grpc/devops && sh deploy.sh' $TRAVIS_BRANCH $TRAVIS_BUILD_ID
