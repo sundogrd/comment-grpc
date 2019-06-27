@@ -12,5 +12,6 @@ RUN go build .
 
 RUN "./devops/build_docker.sh"
 
-EXPOSE 8999
+EXPOSE 24952
+  
 ENTRYPOINT ["./devops/entrypoint.sh"]

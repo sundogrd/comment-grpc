@@ -21,5 +21,9 @@
   "grpcService": {
     "host": "localhost",
     "port": "24952"
+  },
+  "etcd": {
+    "host": "host.docker.internal",
+    "port": "2379"
   }
 }

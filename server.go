@@ -60,7 +60,9 @@ func main() {
 	logrus.Printf("[comment-grpc] NewCommentService finished")
 
 	grpcServer := grpc.NewServer()
-	resolver, err := grpcUtils.NewGrpcResolover()
+	endpoints := config.Get("etcd.host").(string) + ":" + config.Get("etcd.port").(string)
+	logrus.Printf("etcd config is %s", endpoints)
+	resolver, err := grpcUtils.NewGrpcResolover(endpoints)
 	if err != nil {
 		logrus.Errorf("[comment-grpc] NewGrpcResolover err: %s", err.Error())
 		panic(err)
