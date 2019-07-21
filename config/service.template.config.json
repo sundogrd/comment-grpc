@@ -19,7 +19,7 @@
     "password": ""
   },
   "grpcService": {
-    "host": "localhost",
+    "host": "127.0.0.1",
     "port": "24952"
   },
   "etcd": {

@@ -24,7 +24,7 @@ func main() {
 		panic(err)
 	}
 
-	instanceAddr := config.Get("grpcService.host").(string) + ":" + config.Get("grpcService.port").(string)
+	instanceAddr := ":" + config.Get("grpcService.port").(string)
 	listen, err := net.Listen("tcp", instanceAddr)
 	if err != nil {
 		logrus.Errorf("[comment-grpc] net.Listen err: %s", err.Error())
