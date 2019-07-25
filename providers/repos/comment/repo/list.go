@@ -3,9 +3,19 @@ package repo
 import (
 	"context"
 	"errors"
-	"fmt"
+
+	"github.com/sirupsen/logrus"
 
 	repo "github.com/sundogrd/comment-grpc/providers/repos/comment"
+)
+
+type SortType int16
+
+const (
+	CREATED_DESC SortType = iota
+	CREATED
+	LIKE_DESC
+	LIKE
 )
 
 func (s commentRepo) List(ctx context.Context, req *repo.ListRequest) (*repo.ListResponse, error) {
@@ -30,17 +40,17 @@ func (s commentRepo) List(ctx context.Context, req *repo.ListRequest) (*repo.Lis
 	if req.AppId != "" {
 		db = db.Where("app_id = ?", req.AppId)
 	} else {
-		fmt.Printf("[service/comment] List: must have AppId parameter")
+		logrus.Warnln("[service/comment] List: must have AppId parameter")
 		return nil, errors.New("app id invalid")
 	}
 
 	if req.TargetId >= 0 {
-		fmt.Println("target_id is ", req.TargetId)
+		logrus.Infoln("target_id is ", req.TargetId)
 		db = db.Where("target_id = ?", req.TargetId)
 	}
 
 	if req.ParentId >= 0 {
-		fmt.Println("parentId is ", req.ParentId)
+		logrus.Infoln("parentId is ", req.ParentId)
 		db = db.Where("parent_id = ?", req.ParentId)
 	}
 
@@ -71,14 +81,15 @@ func (s commentRepo) List(ctx context.Context, req *repo.ListRequest) (*repo.Lis
 	if int16(req.Sort) != 0 {
 		sort = int16(req.Sort)
 	}
-	switch sort {
-	case 0:
+
+	switch SortType(sort) {
+	case CREATED_DESC:
 		db = db.Order("created_at desc")
-	case 1:
+	case CREATED:
 		db = db.Order("created_at")
-	case 2:
+	case LIKE_DESC:
 		db = db.Order("like desc")
-	case 3:
+	case LIKE:
 		db = db.Order("like")
 	default:
 		db = db.Order("created_at desc")
