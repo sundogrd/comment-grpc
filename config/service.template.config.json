@@ -1,25 +1,29 @@
 {
-  "name": "App",
-  "port": 9999,
+  "name": "Comment",
+  "grpcPort": ":8999",
   "home_page": "Your Home Page",
   "db": {
     "type": "mysql",
     "options": {
-      "user": "Your User Name",
-      "password": "Your Password",
-      "host": "Your Host",
-      "port": 3306,
-      "dbname": "Your DB Name",
+      "user": "root",
+      "password": "12345678",
+      "host": "host.docker.internal",
+      "port": "3306",
+      "dbname": "comment",
       "connectTimeout": "10s"
     }
   },
   "redis": {
-    "host": "Your Host",
-    "port": 6379,
+    "host": "host.docker.internal",
+    "port": "6379",
     "password": ""
   },
   "grpcService": {
-    "host": "localhost",
+    "host": "127.0.0.1",
     "port": "24952"
+  },
+  "etcd": {
+    "host": "host.docker.internal",
+    "port": "2379"
   }
 }

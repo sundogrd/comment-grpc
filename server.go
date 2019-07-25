@@ -1,10 +1,10 @@
 package main
 
 import (
-	"fmt"
-	"github.com/sirupsen/logrus"
 	"net"
 	"time"
+
+	"github.com/sirupsen/logrus"
 
 	commentGen "github.com/sundogrd/comment-grpc/grpc_gen/comment"
 	commentRepo "github.com/sundogrd/comment-grpc/providers/repos/comment/repo"
@@ -24,7 +24,7 @@ func main() {
 		panic(err)
 	}
 
-	instanceAddr := config.Get("grpcService.host").(string) + ":" + config.Get("grpcService.port").(string)
+	instanceAddr := ":" + config.Get("grpcService.port").(string)
 	listen, err := net.Listen("tcp", instanceAddr)
 	if err != nil {
 		logrus.Errorf("[comment-grpc] net.Listen err: %s", err.Error())
@@ -60,7 +60,9 @@ func main() {
 	logrus.Printf("[comment-grpc] NewCommentService finished")
 
 	grpcServer := grpc.NewServer()
-	resolver, err := grpcUtils.NewGrpcResolover()
+	endpoints := config.Get("etcd.host").(string) + ":" + config.Get("etcd.port").(string)
+	logrus.Printf("etcd config is %s", endpoints)
+	resolver, err := grpcUtils.NewGrpcResolover(endpoints)
 	if err != nil {
 		logrus.Errorf("[comment-grpc] NewGrpcResolover err: %s", err.Error())
 		panic(err)

@@ -1,0 +1,6 @@
+.DS_Store
+.git
+.gitignore
+./bin
+./vscode
+./config/service.config.json

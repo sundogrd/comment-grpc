@@ -2,67 +2,108 @@ package repo
 
 import (
 	"context"
-<<<<<<< HEAD
-	"database/sql"
-=======
->>>>>>> master
-	"fmt"
+	"errors"
+
+	"github.com/sirupsen/logrus"
 
 	repo "github.com/sundogrd/comment-grpc/providers/repos/comment"
 )
 
+type SortType int16
+
+const (
+	CREATED_DESC SortType = iota
+	CREATED
+	LIKE_DESC
+	LIKE
+)
+
 func (s commentRepo) List(ctx context.Context, req *repo.ListRequest) (*repo.ListResponse, error) {
 
-	var result []*repo.Comment
 	db := s.gormDB
-	page := req.Page
-	pageSize := req.PageSize
 
-	var rows *sql.Rows
-	var err error
-	if page > 0 && pageSize > 0 {
-		rows, err = db.Limit(pageSize).Offset((page-1)*pageSize).Raw(req.Query, req.Values...).Rows()
-		defer rows.Close()
+	var page int32 = 1
+	var pageSize int32 = 10
+
+	if req.Page != 0 {
+		page = req.Page
+	}
+	if req.PageSize != 0 {
+		pageSize = req.PageSize
+	}
+
+	comments := make([]*repo.Comment, 0)
+
+	count := int64(0)
+	// sort
+
+	if req.AppId != "" {
+		db = db.Where("app_id = ?", req.AppId)
 	} else {
-		rows, err = db.Raw(req.Query, req.Values...).Rows()
-		defer rows.Close()
+		logrus.Warnln("[service/comment] List: must have AppId parameter")
+		return nil, errors.New("app id invalid")
 	}
 
-	if err != nil {
-		fmt.Printf("[providers/comment] List: db scan rows error: %+v", err)
+	if req.TargetId >= 0 {
+		logrus.Infoln("target_id is ", req.TargetId)
+		db = db.Where("target_id = ?", req.TargetId)
+	}
+
+	if req.ParentId >= 0 {
+		logrus.Infoln("parentId is ", req.ParentId)
+		db = db.Where("parent_id = ?", req.ParentId)
+	}
+
+	if req.ReCommentId != 0 {
+		db = db.Where("re_comment_id = ?", req.ReCommentId)
+	}
+
+	if req.CreatorId != 0 {
+		db = db.Where("creator_id = ?", req.CreatorId)
+	}
+
+	if req.StartTime != 0 {
+		db = db.Where("created_at > ?", req.StartTime)
+	}
+
+	if req.EndTime != 0 {
+		db = db.Where("created_at < ?", req.EndTime)
+	}
+
+	if req.State > 0 {
+		db = db.Where("state = ?", req.State)
+	}
+
+	db = db.Limit(pageSize).Offset((page - 1) * (pageSize))
+
+	// 排序
+	var sort int16 = 0
+	if int16(req.Sort) != 0 {
+		sort = int16(req.Sort)
+	}
+
+	switch SortType(sort) {
+	case CREATED_DESC:
+		db = db.Order("created_at desc")
+	case CREATED:
+		db = db.Order("created_at")
+	case LIKE_DESC:
+		db = db.Order("like desc")
+	case LIKE:
+		db = db.Order("like")
+	default:
+		db = db.Order("created_at desc")
+	}
+
+	if err := db.Find(&comments).Offset(0).Limit(-1).Count(&count).Error; err != nil {
 		return nil, err
-	}
-
-	for rows.Next() {
-		var commentObj repo.Comment
-
-		if rowErr := db.ScanRows(rows, &commentObj); rowErr != nil {
-			fmt.Printf("[providers/comment] List: db scan row error: %+v", rowErr)
+	} else {
+		res := &repo.ListResponse{
+			List:     comments,
+			Page:     page,
+			PageSize: pageSize,
+			Total:    count,
 		}
-		result = append(result, &commentObj)
+		return res, nil
 	}
-
-	// 获取总数目
-	type Total struct {
-		Total int64
-	}
-	var total Total
-	var countBeginSql string = "SELECT count(1) as total "
-	var countSql = countBeginSql + req.Query[9:]
-
-	// fmt.Println(countSql)
-
-	db.Raw(countSql, req.Values...).Scan(&total)
-
-	// fmt.Printf("total count is %+v", total.Total)
-
-	res := &repo.ListResponse{
-		List:     result,
-		Page:     page,
-		PageSize: pageSize,
-		Total:    total.Total,
-	}
-
-	return res, nil
-
 }
