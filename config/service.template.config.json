@@ -5,11 +5,11 @@
   "db": {
     "type": "mysql",
     "options": {
-      "user": "root",
-      "password": "12345678",
+      "user": "sundog",
+      "password": "sundogPwd",
       "host": "host.docker.internal",
       "port": "3306",
-      "dbname": "comment",
+      "dbname": "sundog",
       "connectTimeout": "10s"
     }
   },
