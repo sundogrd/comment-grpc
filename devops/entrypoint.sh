@@ -15,4 +15,4 @@ fi
 
 echo "$DOCKER_HOST host.docker.internal" >> /etc/hosts
 
-./comment-grpc
+./bin/comment-grpc
