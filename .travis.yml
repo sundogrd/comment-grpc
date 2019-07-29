@@ -11,9 +11,12 @@ before_install:
 install: 
 script:
 - make build
+branches:
+  only:
+    - master
 after_success:
 - chmod 600 ~/.ssh/id_rsa
 - docker login -u="$DOCKER_NAME" -p="$DOCKER_PWD"
-- docker build -t breakinferno/comment-grpc:$TRAVIS_BRANCH-$TRAVIS_BUILD_ID .
+- docker build -t breakinferno/comment-grpc:$TRAVIS_BRANCH-$TRAVIS_BUILD_ID --build-arg DB_USER=$DB_USER --build-arg DB_PWD=$DB_PWD .
 - docker push breakinferno/comment-grpc:$TRAVIS_BRANCH-$TRAVIS_BUILD_ID
 - ssh root@118.25.150.3 -o StrictHostKeyChecking=no 'cd ~/workspace/comment-grpc/devops && sh deploy.sh' $TRAVIS_BRANCH $TRAVIS_BUILD_ID

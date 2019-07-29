@@ -5,8 +5,8 @@
   "db": {
     "type": "mysql",
     "options": {
-      "user": "sundog",
-      "password": "sundogPwd",
+      "user": "Your Username",
+      "password": "Your Password",
       "host": "host.docker.internal",
       "port": "3306",
       "dbname": "sundog",
