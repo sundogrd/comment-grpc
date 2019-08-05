@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-git pull
-
-
 # 删除原有镜像和容器
 if docker ps -a | grep -q sundogrd-comment-grpc; then
     docker rm -f $(docker ps -a | grep sundogrd-comment-grpc | awk '{print $1}')
