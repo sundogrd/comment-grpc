@@ -8,7 +8,7 @@ ENV GO111MODULE=on
 ENV GOFLAGS=-mod=vendor
 ARG DB_USER
 ARG DB_PWD
-RUN go build .
+RUN make build
 
 RUN "./devops/build_docker.sh" $DB_USER $DB_PWD
 
