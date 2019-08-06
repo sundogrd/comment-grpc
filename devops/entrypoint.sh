@@ -13,10 +13,6 @@ else
   fi
 fi
 
-mkdir tmp
-echo "before" > tmp/before.txt
 echo "$DOCKER_HOST host.docker.internal" >> /etc/hosts
-echo "$DOCKER_HOST host.docker.internal" >> tmp/target.txt
-echo "after" > tmp/after.txt
 
 ./bin/comment-grpc
